@@ -549,16 +549,30 @@ class Tooltip {
 }
 
 class App {
-  static init() {
-    Tooltip.clearGrids();
-    Tooltip.displayEmptyBlockSwitch(false);
-    const steps = document.querySelectorAll(`.${ENTREPRISE_WRAPPER_CLASS}`);
-    steps.forEach((step) => {
-      const companiesList = new FieldList(step);
-      this.lists = [];
-      this.lists.push(companiesList);
-    });
-  }
+	static init() {
+		Tooltip.clearGrids();
+		Tooltip.displayEmptyBlockSwitch(false);
+		const steps = document.querySelectorAll(`.${ENTREPRISE_WRAPPER_CLASS}`);
+		steps.forEach(step => {
+			const companiesList = new FieldList(step);
+			this.lists = [];
+			this.lists.push(companiesList);
+		});
+
+		//CLEAR TABS CONTENT WHEN CHANGE TABS
+		const tabsWrappers = document.querySelectorAll(`.entreprise-api-step .tabs-menu`);
+		tabsWrappers.forEach(wrap => {
+			wrap.addEventListener('click', e => {
+				if (e.target.closest('a')) {
+					const contentWrapper = wrap.nextElementSibling;
+					const inputs = contentWrapper.querySelectorAll('input');
+					inputs.forEach(input => {
+						input.value = '';
+					});
+				}
+			});
+		});
+	}
 }
 
 App.init();
